@@ -1,0 +1,30 @@
+{
+  "dependencies": {
+    "pull-routes": "0.0.2",
+    "pull-stream": "^3.4.5",
+    "react": "^15.3.2",
+    "react-dom": "^15.3.2",
+    "react-pull-stream": "0.0.1"
+  },
+  "name": "pull-app",
+  "version": "0.0.0",
+  "main": "app.js",
+  "devDependencies": {
+    "wzrd": "^1.4.0"
+  },
+  "scripts": {
+    "dev": "wzrd app.js -- -dv",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nichoth/pull-app.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nichoth/pull-app/issues"
+  },
+  "homepage": "https://github.com/nichoth/pull-app#readme",
+  "description": ""
+}
