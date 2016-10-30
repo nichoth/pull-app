@@ -1,4 +1,5 @@
 var React = require('react')
+var h = React.createElement
 var pt = React.PropTypes
 var S = require('pull-stream')
 // var pushable = require('pull-pushable')
@@ -21,14 +22,21 @@ module.exports = function () {
 
 function RootView (props) {
     var push = props.push
-    var actions = ['a', 'b', 'c']
-    actions.forEach(function (ev) {
-        process.nextTick(() => push(ev))
-    })
 
-    return React.createElement('div', {
+    // var actions = ['a', 'b', 'c']
+    // actions.forEach(function (ev) {
+    //     process.nextTick(() => push(ev))
+    // })
+
+    console.log(props)
+
+    return h('div', {
         className: 'app'
-    }, 'root view')
+    }, [
+        h('button', { key: 'a', onClick: push.bind(null, 'a') }, 'a'),
+        h('button', { key: 'b', onClick: push.bind(null, 'b') }, 'b'),
+        h('button', { key: 'c', onClick: push.bind(null, 'c') }, 'c')
+    ])
 }
 
 RootView.propTypes = {
