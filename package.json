@@ -8,12 +8,14 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
+    "pull-cat": "^1.1.11",
+    "pull-flat-merge": "0.0.0",
     "pull-routes": "^2.0.0",
     "pull-scan": "^1.0.0",
     "pull-stream": "^3.4.5",
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
-    "react-pull-stream": "0.0.1"
+    "react-pull-stream": "0.0.2"
   },
   "devDependencies": {
     "wzrd": "^1.4.0"
