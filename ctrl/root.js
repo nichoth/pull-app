@@ -1,6 +1,19 @@
 var S = require('pull-stream')
+var many = require('pull-many')
 var cat = require('pull-cat')
 var flatMerge = require('pull-flat-merge')
+
+
+function Add (s) {
+    var m = many()
+
+    return function add () {
+        var stream = S.through
+        m.add(stream)
+        return stream
+    }
+}
+
 
 module.exports = function (api) {
     return function rootController (params) {

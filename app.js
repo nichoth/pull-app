@@ -23,17 +23,17 @@ var el = document.createElement('div')
 document.body.appendChild(el)
 S(
     rStream,
-    scan(function (prev, next) {
+    scan(function unsubscribe (prev, next) {
         if (prev) prev[0].abort()
         return next.fn(next.params)
     }, null),
-    S.map(function (ss) {
+    S.map(function subscribe (ss) {
         var view = ss[0]
         var transform = S.apply(null, ss.slice(1, ss.length))
         S( view, transform, view )
         return view.view
     }),
-    S.drain(function onChange (view) {
+    S.drain(function render (view) {
         reactDom.render(React.createElement(view), el)
     })
 )
