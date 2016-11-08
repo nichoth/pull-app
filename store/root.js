@@ -2,7 +2,6 @@ var S = require('pull-stream')
 var scan = require('pull-scan')
 var xtend = require('xtend')
 var cat = require('pull-cat')
-var Notify = require('pull-notify')
 
 var reducers = {
     start: function (state, ev) {
@@ -32,7 +31,6 @@ var reducers = {
 }
 
 module.exports = function () {
-    var notify = Notify()
     var state = { resolving: 0, data: null, count: 0 }
 
     return function rootStore (params) {
@@ -46,10 +44,8 @@ module.exports = function () {
         )
 
         return function sink (source) {
-            S(source, transform, S.drain(function onEvent (ev) {
-                notify(ev)
-            }))
-            return cat([S.once(state), notify.listen()])
+            var live = S(source, transform)
+            return cat([S.once(state), live])
         }
     }
 }
