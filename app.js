@@ -16,6 +16,11 @@ var rStream = router([
             rootController(),
             rootStore()
         ]
+    }],
+    ['/foo', function fooRoute (params) {
+        return [
+            require('./view/foo')()
+        ]
     }]
 ])
 
@@ -24,13 +29,14 @@ document.body.appendChild(el)
 S(
     rStream,
     scan(function unsubscribe (prev, next) {
-        if (prev) prev[0].abort()
+        if (prev) prev[0].sink.abort()
         return next.fn(next.params)
     }, null),
     S.map(function subscribe (ss) {
         var view = ss[0]
         var transform = S.apply(null, ss.slice(1, ss.length))
-        S( view, transform, view )
+        if (transform) S( view, transform, view )
+        else S(view, view)
         return view.view
     }),
     S.drain(function render (view) {
