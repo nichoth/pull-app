@@ -4,10 +4,13 @@ var S = require('pull-stream')
 var scan = require('pull-scan')
 var router = require('pull-routes')()
 
+var websocket = require('./mock/socket')()
 var api = require('./mock/api')()
 var rootView = require('./view/root')
-var rootController = require('./ctrl/root')(api)
+var rootController = require('./ctrl/root')(api, websocket)
 var rootStore = require('./store/root')()
+
+S( websocket, S.log() )
 
 var rStream = router([
     ['/', function rootRoute (params) {
