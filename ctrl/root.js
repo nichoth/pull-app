@@ -3,17 +3,8 @@ var Abortable = require('pull-abortable')
 var many = require('pull-many')
 var cat = require('pull-cat')
 var flatMerge = require('pull-flat-merge')
-var fnToStream = require('../lib/api-stream')
 var onAbort = require('pull-on-abort')
-
-// function onAbort (fn) {
-//     return function sink (read) {
-//         return function source (abort, cb) {
-//             if (abort) return read(fn(), cb)
-//             return read(abort, cb)
-//         }
-//     }
-// }
+var fnToStream = require('../lib/api-stream')
 
 var apiMap = {
     a: 'fetch',
