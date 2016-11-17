@@ -34,6 +34,11 @@ var reducers = {
     },
 
     ws: function (state, ev) {
+        // return xtend(state, {
+        //     ws: ev.data
+        // })
+
+        // ignore websocket until we have fetched data
         return state.hasFetched ?
             xtend(state, {
                 ws: ev.data

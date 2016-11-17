@@ -1,8 +1,18 @@
 var S = require('pull-stream')
+var Abortable = require('pull-abortable')
 var many = require('pull-many')
 var cat = require('pull-cat')
 var flatMerge = require('pull-flat-merge')
 var fnToStream = require('../lib/api-stream')
+
+function onAbort (fn) {
+    return function sink (read) {
+        return function source (abort, cb) {
+            if (abort) return read(fn(), cb)
+            return read(abort, cb)
+        }
+    }
+}
 
 var apiMap = {
     a: 'fetch',
@@ -34,8 +44,16 @@ module.exports = function RootController (api) {
         )
 
         return function (source) {
-            m.add(S(source, transform))
-            return S(m, S.through(console.log.bind(console)))
+            var abortable = Abortable()
+            m.add(S(source, transform, abortable))
+            return S(
+                m,
+                onAbort(function () {
+                    // abort only the view source, not websocket
+                    abortable.abort()
+                    return null
+                })
+            )
         }
     }
 

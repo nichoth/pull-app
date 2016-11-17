@@ -16,17 +16,20 @@ var wsMap = S.map(function (ev) {
         data: ev
     }
 })
-rootController.add( S(wsStream, wsMap) )
+var wss = S(
+    wsStream,
+    wsMap
+)
+rootController.add(wss)
 
 var rStream = router([
     ['/', function rootRoute (params) {
-        var strm = [
+        var strms = [
             rootView(),
             rootController(),
             rootStore()
         ]
-        console.log(strm)
-        return strm
+        return strms
     }],
     ['/foo', function fooRoute (params) {
         return [
