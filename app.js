@@ -4,21 +4,29 @@ var S = require('pull-stream')
 var scan = require('pull-scan')
 var router = require('pull-routes')()
 
-var websocket = require('./mock/socket')()
+var wsStream = require('./mock/socket')()
 var api = require('./mock/api')()
 var rootView = require('./view/root')
-var rootController = require('./ctrl/root')(api, websocket)
+var rootController = require('./ctrl/root')(api)
 var rootStore = require('./store/root')()
 
-S( websocket, S.log() )
+var wsMap = S.map(function (ev) {
+    return {
+        type: 'ws',
+        data: ev
+    }
+})
+rootController.add( S(wsStream, wsMap) )
 
 var rStream = router([
     ['/', function rootRoute (params) {
-        return [
+        var strm = [
             rootView(),
             rootController(),
             rootStore()
         ]
+        console.log(strm)
+        return strm
     }],
     ['/foo', function fooRoute (params) {
         return [
@@ -44,5 +52,7 @@ S(
     }),
     S.drain(function render (view) {
         reactDom.render(React.createElement(view), el)
+    }, function onEnd (err) {
+        console.log('error', err)
     })
 )

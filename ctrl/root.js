@@ -14,9 +14,8 @@ module.exports = function RootController (api) {
     var fetched = false
     var m = many()
 
-    return function rootController (params) {
-
-        return S(
+    function rootController (params) {
+        var transform = S(
             // map view events to api calls
             S.map(function (ev) {
                 return apiMap[ev]
@@ -33,5 +32,13 @@ module.exports = function RootController (api) {
                 fetched = !fetched ? ev.type === 'fetch' : fetched
             })
         )
+
+        return function (source) {
+            m.add(S(source, transform))
+            return S(m, S.through(console.log.bind(console)))
+        }
     }
+
+    rootController.add = m.add.bind(m)
+    return rootController
 }

@@ -7,31 +7,45 @@ var reducers = {
     start: function (state, ev) {
         return xtend(state, { resolving: state.resolving + 1 })
     },
+
     fetch: function (state, ev) {
-        return {
+        return xtend(state, {
             resolving: state.resolving - 1,
             data: ev.resp.data,
-            count: state.count + 1
-        }
+            count: state.count + 1,
+            hasFetched: true
+        })
     },
+
     update: function (state, ev) {
-        return {
+        return xtend(state, {
             resolving: state.resolving - 1,
             data: ev.resp.data,
             count: state.count + 1
-        }
+        })
     },
+
     delete: function (state, ev) {
-        return {
+        return xtend(state, {
             resolving: state.resolving - 1,
             data: ev.resp.data,
             count: state.count + 1
-        }
+        })
+    },
+
+    ws: function (state, ev) {
+        return state.hasFetched ?
+            xtend(state, {
+                ws: ev.data
+            }) :
+            state
     }
 }
 
-module.exports = function () {
-    var state = { resolving: 0, data: null, count: 0 }
+module.exports = function RootStore () {
+    var state = { resolving: 0, data: null, count: 0, ws: null,
+        hasFetched: false
+    }
 
     return function rootStore (params) {
         var transform = S(
@@ -43,6 +57,7 @@ module.exports = function () {
             })
         )
 
+        // immediately emit the most recent value
         return function sink (source) {
             var live = S(source, transform)
             return cat([S.once(state), live])
