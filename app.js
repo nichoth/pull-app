@@ -6,8 +6,9 @@ var router = require('pull-routes')()
 
 var wsStream = require('./mock/socket')()
 var api = require('./mock/api')()
+var apiStream = require('./lib/api-stream')(api)
 var rootView = require('./view/root')
-var rootController = require('./ctrl/root')(api)
+var rootController = require('./ctrl/root')(apiStream)
 var rootStore = require('./store/root')()
 
 var wsMap = S.map(function (ev) {

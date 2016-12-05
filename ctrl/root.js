@@ -4,7 +4,8 @@ var many = require('pull-many')
 var cat = require('pull-cat')
 var flatMerge = require('pull-flat-merge')
 var onAbort = require('pull-on-abort')
-var fnToStream = require('../lib/api-stream')
+// var fnToStream = require('../lib/api-stream')
+// var ApiStream = require('../lib/api-stream')
 
 var apiMap = {
     a: 'fetch',
@@ -12,7 +13,7 @@ var apiMap = {
     c: 'delete'
 }
 
-module.exports = function RootController (api) {
+module.exports = function RootController (apiStream) {
     var fetched = false
     var m = many()
 
@@ -25,16 +26,17 @@ module.exports = function RootController (api) {
 
             // don't re-fetch from the api if we already have data
             S.filter(function (ev) {
-                if ((ev === 'fetch') && fetched) return false
-                return true
+                return !(ev === 'fetch' && fetched)
             }),
-            fnToStream(api),
+            apiStream,
+            // fnToStream(api),
             flatMerge(),
             S.through(function (ev) {
                 fetched = !fetched ? ev.type === 'fetch' : fetched
             })
         )
 
+        // source here is the events from the view
         return function (source) {
             var abortable = Abortable()
             m.add(S(source, transform, abortable))
