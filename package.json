@@ -13,6 +13,7 @@
     "pull-on-abort": "0.0.0",
     "pull-routes": "^2.0.0",
     "pull-scan": "^1.0.0",
+    "pull-store": "0.0.1",
     "pull-stream": "^3.4.5",
     "react": "^15.3.2",
     "react-dom": "^15.3.2",

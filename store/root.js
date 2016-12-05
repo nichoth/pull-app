@@ -1,7 +1,5 @@
-var S = require('pull-stream')
-var scan = require('pull-scan')
 var xtend = require('xtend')
-var cat = require('pull-cat')
+var Store = require('pull-store')
 
 var reducers = {
     start: function (state, ev) {
@@ -34,10 +32,6 @@ var reducers = {
     },
 
     ws: function (state, ev) {
-        // return xtend(state, {
-        //     ws: ev.data
-        // })
-
         // ignore websocket until we have fetched data
         return state.hasFetched ?
             xtend(state, {
@@ -47,26 +41,18 @@ var reducers = {
     }
 }
 
-module.exports = function RootStore () {
-    var state = { resolving: 0, data: null, count: 0, ws: null,
-        hasFetched: false
-    }
-
-    return function rootStore (params) {
-        var transform = S(
-            scan(function (state, ev) {
-                return reducers[ev.type](state, ev)
-            }, state),
-            S.through(function (_state) {
-                state = _state
-            })
-        )
-
-        // immediately emit the most recent value
-        return function sink (source) {
-            var live = S(source, transform)
-            return cat([S.once(state), live])
-        }
-    }
+var initState = { resolving: 0, data: null, count: 0, ws: null,
+    hasFetched: false
 }
+
+function RootStore () {
+    var store = Store(function (state, ev) {
+        return reducers[ev.type](state, ev)
+    }, xtend(initState))
+    return store
+}
+
+RootStore.reducers = reducers
+RootStore.initState = initState
+module.exports = RootStore
 
