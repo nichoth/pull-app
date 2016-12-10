@@ -4,23 +4,27 @@
   "main": "app.js",
   "description": "",
   "scripts": {
-    "dev": "wzrd app.js -- -dv",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "wzrd example/app.js -- -dv",
+    "test": "node test/*.js | tap-spec"
   },
   "dependencies": {
     "pull-cat": "^1.1.11",
     "pull-flat-merge": "^1.0.0",
     "pull-fn-stream": "^1.0.1",
     "pull-on-abort": "0.0.0",
-    "pull-routes": "^2.0.0",
+    "pull-router": "0.0.2",
     "pull-scan": "^1.0.0",
     "pull-store": "0.0.1",
-    "pull-stream": "^3.4.5",
-    "react": "^15.3.2",
-    "react-dom": "^15.3.2",
-    "react-pull-stream": "0.0.2"
+    "pull-stream": "^3.4.5"
   },
   "devDependencies": {
+    "pull-abortable": "^4.1.0",
+    "pull-pushable": "^2.0.1",
+    "react": "^15.3.2",
+    "react-dom": "^15.3.2",
+    "react-pull-stream": "0.0.2",
+    "tap-spec": "^4.1.1",
+    "tape": "^4.6.3",
     "wzrd": "^1.4.0"
   },
   "repository": {

@@ -1,17 +1,27 @@
 var S = require('pull-stream')
 var Abortable = require('pull-abortable')
 var many = require('pull-many')
-var cat = require('pull-cat')
 var flatMerge = require('pull-flat-merge')
 var onAbort = require('pull-on-abort')
-// var fnToStream = require('../lib/api-stream')
-// var ApiStream = require('../lib/api-stream')
 
 var apiMap = {
     a: 'fetch',
     b: 'update',
     c: 'delete'
 }
+
+
+
+// example consumer code
+/*
+var MyController = Controller(transform)
+var ctrl = MyController()
+ctrl.add(stream) // this stream is never aborted
+S( otherStream, ctrl(), sink )
+*/
+
+
+
 
 module.exports = function RootController (apiStream) {
     var fetched = false
