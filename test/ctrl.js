@@ -4,7 +4,6 @@ var Abortable = require('pull-abortable')
 var Pushable = require('pull-pushable')
 var Controller = require('../ctrl')
 
-
 test('controller', function (t) {
     t.plan(2)
     var controller = Controller()
@@ -44,4 +43,22 @@ test('abort source streams', function (t) {
     p.push('test')
     p2.push('test2')
     abortable.abort()
+})
+
+test('transforms', function (t) {
+    t.plan(2)
+    var controller = Controller(S.map(function (n) {
+        return n + 1
+    }))
+    controller.cap()
+    S(
+        S.values([1,2,3]),
+        controller(S.map(function (n) {
+            return n * 2
+        })),
+        S.collect(function (err, res) {
+            t.error(err)
+            t.deepEqual(res, [4,6,8], 'should apply transforms')
+        })
+    )
 })
