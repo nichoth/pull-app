@@ -47,18 +47,18 @@ test('abort source streams', function (t) {
 
 test('transforms', function (t) {
     t.plan(2)
-    var controller = Controller(S.map(function (n) {
-        return n + 1
-    }))
+    var controller = Controller(function () {
+        return S.map(function (n) {
+            return n + 1
+        })
+    })
     controller.cap()
     S(
         S.values([1,2,3]),
-        controller(S.map(function (n) {
-            return n * 2
-        })),
+        controller(),
         S.collect(function (err, res) {
             t.error(err)
-            t.deepEqual(res, [4,6,8], 'should apply transforms')
+            t.deepEqual(res, [2,3,4], 'should apply transforms')
         })
     )
 })
