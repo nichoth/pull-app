@@ -18,11 +18,9 @@ module.exports = function RootController (apiStream) {
         }),
         // don't re-fetch from the api if we already have data
         S.filter(function (ev) {
-            console.log('ev', ev)
             return !(ev === 'fetch' && fetched)
         }),
-        apiStream,
-        // fnToStream(api),
+        apiStream(),
         flatMerge(),
         S.through(function (ev) {
             fetched = !fetched ? ev.type === 'fetch' : fetched
