@@ -3,12 +3,9 @@ var Router = require('pull-router')
 var RootController = require('./ctrl/root')
 var RootStore = require('./store/root')
 var ApiStream = require('./lib/api-stream')
-var Api = require('./mock/api')
-var WsStream = require('./mock/socket')
 
-module.exports = function AppRouter () {
-    var apiStream = ApiStream(Api())
-    var wsStream = WsStream()
+module.exports = function AppRouter (api, wsStream) {
+    var apiStream = ApiStream(api)
     var rootStore = RootStore()
     var rootController = RootController(apiStream)
 

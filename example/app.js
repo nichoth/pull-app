@@ -1,9 +1,10 @@
+var S = require('pull-stream')
 var React = require('react')
 var reactDom = require('react-dom')
-var S = require('pull-stream')
-var Router = require('./router')()
 var rootView = require('./view/root')
-
+var Api = require('./mock/api')
+var WsStream = require('./mock/socket')
+var Router = require('./router')(Api(), WsStream())
 
 var router = Router([
     ['/', function rootRoute (params) {
