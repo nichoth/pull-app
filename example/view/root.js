@@ -1,7 +1,6 @@
 var React = require('react')
 var h = React.createElement
 var pt = React.PropTypes
-var S = require('pull-stream')
 var toStream = require('react-pull-stream')
 
 module.exports = function () {
@@ -10,7 +9,7 @@ module.exports = function () {
 
 function RootView (props) {
     var push = props.push
-    console.log(props)
+
     return h('div', {
         className: 'app'
     }, [
@@ -18,18 +17,25 @@ function RootView (props) {
             key: 'h1',
             style: { opacity: props.resolving ? '0.4' : '1' }
         },
-        'state: ' + props.data),
+        'api: ' + props.data + ', count: ' + props.count),
+        h('h2', { key: 'h2' }, 'websocket: ' + props.ws),
         h('button', { key: 'a', onClick: push.bind(null, 'a') }, 'a'),
         h('button', { key: 'b', onClick: push.bind(null, 'b') }, 'b'),
-        h('button', { key: 'c', onClick: push.bind(null, 'c') }, 'c')
+        h('button', { key: 'c', onClick: push.bind(null, 'c') }, 'c'),
+        h('a', { key: 'link', href: '/foo' }, 'foo')
     ])
 }
 
 RootView.propTypes = {
+    resolving: pt.number,
+    data: pt.string,
+    ws: pt.number,
     resolving: pt.number
 }
 
 RootView.defaultProps = {
     resolving: 0,
+    count: 0,
+    ws: null,
     data: null
 }
