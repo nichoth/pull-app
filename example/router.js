@@ -8,7 +8,7 @@ var WsStream = require('./mock/socket')
 
 module.exports = function AppRouter () {
     var apiStream = ApiStream(Api())
-    var wsStream WsStream()
+    var wsStream = WsStream()
     var rootStore = RootStore()
     var rootController = RootController(apiStream)
 
@@ -23,7 +23,6 @@ module.exports = function AppRouter () {
         wsMap
     )
     rootController.add(wss)
-
 
     return Router([
         ['/', function rootRoute (params, rt) {
