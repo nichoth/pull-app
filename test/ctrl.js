@@ -45,20 +45,30 @@ test('abort source streams', function (t) {
     abortable.abort()
 })
 
-test('transforms', function (t) {
-    t.plan(2)
+test('pass a function that returns a transform', function (t) {
+    t.plan(4)
     var controller = Controller(function () {
         return S.map(function (n) {
             return n + 1
         })
     })
     controller.cap()
+
     S(
         S.values([1,2,3]),
         controller(),
         S.collect(function (err, res) {
             t.error(err)
             t.deepEqual(res, [2,3,4], 'should apply transforms')
+        })
+    )
+
+    S(
+        S.values([4,5,6]),
+        controller(),
+        S.collect(function (err, res) {
+            t.error(err)
+            t.deepEqual(res, [5,6,7], 'can be called multiple times')
         })
     )
 })
