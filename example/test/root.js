@@ -93,3 +93,6 @@ test('root route', function (t) {
     routeStream.push('/')
 })
 
+module.exports = {
+    expected: expected
+}
