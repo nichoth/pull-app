@@ -1,12 +1,13 @@
 {
   "name": "pull-app",
   "version": "0.0.0",
-  "main": "app.js",
+  "main": "index.js",
   "description": "",
   "scripts": {
     "dev": "wzrd example/app.js -- -dv",
     "test": "tape test/*.js | tap-spec",
-    "example-test": "tape example/test/*.js | tap-spec"
+    "example-test": "tape example/test/*.js | tap-spec",
+    "postversion": "git push && git push --tags && npm publish"
   },
   "dependencies": {
     "pull-cat": "^1.1.11",
