@@ -5,7 +5,8 @@
   "description": "",
   "scripts": {
     "dev": "wzrd example/app.js -- -dv",
-    "test": "node test/*.js | tap-spec"
+    "test": "node test/*.js | tap-spec",
+    "example-test": "node example/test/*.js | tap-spec"
   },
   "dependencies": {
     "pull-cat": "^1.1.11",

@@ -23,6 +23,8 @@ function Controller (transform) {
     }
     controller.add = m.add.bind(m)
     controller.cap = m.cap.bind(m)
+    // abort all sources
+    // controller.end =
     return controller
 }
 
