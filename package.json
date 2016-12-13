@@ -1,6 +1,6 @@
 {
   "name": "pull-app",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "main": "index.js",
   "description": "Make apps with pull streams",
   "scripts": {
