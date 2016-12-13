@@ -2,7 +2,7 @@
   "name": "pull-app",
   "version": "0.0.0",
   "main": "index.js",
-  "description": "",
+  "description": "Make apps with pull streams",
   "scripts": {
     "dev": "wzrd example/app.js -- -dv",
     "test": "tape test/*.js | tap-spec",
