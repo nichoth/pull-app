@@ -3,7 +3,7 @@ var S = require('pull-stream')
 var shouldUpdate = require('../lib/should-update')
 
 test('should update', function (t) {
-    t.plan(2)
+    t.plan(6)
     S(
         S.values([1,2,3]),
         shouldUpdate(function (prev, next) {
@@ -12,6 +12,24 @@ test('should update', function (t) {
         S.collect(function (err, res) {
             t.error(err)
             t.deepEqual(res, [2], 'should filter the stream')
+        })
+    )
+
+    S(
+        S.values([1,2,3]),
+        shouldUpdate(function (pres, next) { return true }),
+        S.collect(function (err, res) {
+            t.error(err)
+            t.deepEqual(res, [1,2,3], 'should not filter anything')
+        })
+    )
+
+    S(
+        S.values([1,2,3]),
+        shouldUpdate(function (pres, next) { return false }),
+        S.collect(function (err, res) {
+            t.error(err)
+            t.deepEqual(res, [], 'should filter everything')
         })
     )
 })
