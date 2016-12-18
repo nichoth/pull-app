@@ -1,6 +1,7 @@
 var S = require('pull-stream')
 var RootController = require('../ctrl/root')
 var RootStore = require('../store/root')
+var shouldUpdate = require('../../should-update')
 
 module.exports = function RootRoute (apiStream, wss) {
     var rootStore = RootStore()
@@ -11,7 +12,14 @@ module.exports = function RootRoute (apiStream, wss) {
         // transform stream
         var strms = S(
             rootController(),
-            rootStore()
+            rootStore(),
+            shouldUpdate(function (prev, next) {
+                return prev === null ?
+                    true :
+                    prev.resolving > 0 ?
+                    next.resolving === 0 :
+                    true
+            })
         )
         // change this? do it automatically in the router?
         rootController.cap()

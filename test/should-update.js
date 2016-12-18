@@ -1,6 +1,6 @@
 var test = require('tape')
 var S = require('pull-stream')
-var shouldUpdate = require('../lib/should-update')
+var shouldUpdate = require('../should-update')
 
 test('should update', function (t) {
     t.plan(6)
@@ -17,7 +17,7 @@ test('should update', function (t) {
 
     S(
         S.values([1,2,3]),
-        shouldUpdate(function (pres, next) { return true }),
+        shouldUpdate(function (prev, next) { return true }),
         S.collect(function (err, res) {
             t.error(err)
             t.deepEqual(res, [1,2,3], 'should not filter anything')
