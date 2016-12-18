@@ -8,7 +8,7 @@ var apiMap = {
     c: 'delete'
 }
 
-module.exports = function RootController (apiStream) {
+module.exports = function RootController (apiStreams) {
     var fetched = false
 
     function transform () {
@@ -21,7 +21,7 @@ module.exports = function RootController (apiStream) {
             S.filter(function (ev) {
                 return !(ev === 'fetch' && fetched)
             }),
-            apiStream(),
+            apiStreams(),
             flatMerge(),
             S.through(function (ev) {
                 fetched = !fetched ? ev.type === 'fetch' : fetched
