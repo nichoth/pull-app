@@ -10,6 +10,7 @@
     "postversion": "git push && git push --tags && npm publish"
   },
   "dependencies": {
+    "pull-async": "^1.0.0",
     "pull-cat": "^1.1.11",
     "pull-flat-merge": "^1.0.0",
     "pull-fn-stream": "^2.0.1",
