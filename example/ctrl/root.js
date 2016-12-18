@@ -21,7 +21,7 @@ module.exports = function RootController (apiStreams) {
             S.filter(function (ev) {
                 return !(ev === 'fetch' && fetched)
             }),
-            apiStreams(),
+            S.map(apiStreams),
             flatMerge(),
             S.through(function (ev) {
                 fetched = !fetched ? ev.type === 'fetch' : fetched
