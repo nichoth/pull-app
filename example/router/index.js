@@ -7,10 +7,7 @@ function AppRouter (api, wsStream) {
     var wss = S(
         wsStream,
         S.map(function (ev) {
-            return {
-                type: 'ws',
-                data: ev
-            }
+            return ['ws', { data: ev }]
         })
     )
 

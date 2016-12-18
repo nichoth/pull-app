@@ -10,59 +10,45 @@ S.asyncValues = function (arr) {
 }
 
 var expected = [
-    {
-        'count': 0,
-        'data': null,
-        'hasFetched': false,
-        'resolving': 0,
-        'ws': null
-    },
-    {
-        'count': 0,
-        'data': null,
-        'hasFetched': false,
-        'resolving': 1,
-        'ws': null
-    },
-    {
-        'count': 0,
-        'data': null,
-        'hasFetched': false,
-        'resolving': 2,
-        'ws': null
-    },
-    {
-        'count': 0,
-        'data': null,
-        'hasFetched': false,
-        'resolving': 3,
-        'ws': null
-    },
-    {
-        'count': 1,
-        'data': 'fetch',
-        'hasFetched': true,
-        'resolving': 2,
-        'ws': null
-    },
-    {
-        'count': 2,
-        'data': 'udpate',
-        'hasFetched': true,
-        'resolving': 1,
-        'ws': null
-    },
-    {
-        'count': 3,
-        'data': 'delete',
-        'hasFetched': true,
-        'resolving': 0,
-        'ws': null
-    }
+    { resolving: 0, data: null, count: 0, ws: null, hasFetched: false },
+    { resolving: 1, data: null, count: 0, ws: null, hasFetched: false },
+    { resolving: 2, data: null, count: 0, ws: null, hasFetched: false },
+    { resolving: 3, data: null, count: 0, ws: null, hasFetched: false },
+    { resolving: 3,
+        data: 'fetch',
+        count: 1,
+        ws: null,
+        hasFetched: true },
+    { resolving: 2,
+        data: 'fetch',
+        count: 1,
+        ws: null,
+        hasFetched: true },
+    { resolving: 2,
+        data: 'udpate',
+        count: 2,
+        ws: null,
+        hasFetched: true },
+    { resolving: 1,
+        data: 'udpate',
+        count: 2,
+        ws: null,
+        hasFetched: true },
+    { resolving: 1,
+        data: 'delete',
+        count: 3,
+        ws: null,
+        hasFetched: true },
+    { resolving: 0,
+        data: 'delete',
+        count: 3,
+        ws: null,
+        hasFetched: true }
 ]
 
 var mockWs = S.empty()
-var Router = require('../router')(require('../mock/api')(), mockWs)
+var api = require('../mock/api')()
+var Router = require('../router')(api, mockWs)
 
 test('root route', function (t) {
     t.plan(2)
@@ -71,9 +57,7 @@ test('root route', function (t) {
         ['/', function rootTest () {
             return {
                 source: S.asyncValues(['a','b','c']),
-                // sink: S.drain(function onEvent (ev) {
-                //     console.log('root', ev)
-                // })
+                // sink: S.log()
                 sink: S.collect(function (err, res) {
                     t.error(err)
                     t.deepEqual(res, expected,
@@ -93,6 +77,3 @@ test('root route', function (t) {
     routeStream.push('/')
 })
 
-module.exports = {
-    expected: expected
-}

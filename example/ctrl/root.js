@@ -8,6 +8,10 @@ var apiMap = {
     c: 'delete'
 }
 
+// function log (arg) {
+//     return console.log.bind(console, arg)
+// }
+
 module.exports = function RootController (apiStreams) {
     var fetched = false
 
@@ -24,7 +28,7 @@ module.exports = function RootController (apiStreams) {
             S.map(apiStreams),
             flatMerge(),
             S.through(function (ev) {
-                fetched = !fetched ? ev.type === 'fetch' : fetched
+                fetched = !fetched ? ev[0] === 'fetch' : fetched
             })
         )
     }

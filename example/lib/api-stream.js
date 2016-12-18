@@ -10,11 +10,17 @@ function ApiStream (api) {
     }, {})
 
     function findStream (ev) {
-        var reqStream = select(reqs, [].concat(ev))
+        var s = select(reqs, [].concat(ev))
+        var reqStream = S(
+            s,
+            S.map(function (resp) {
+                return [ev, resp]
+            })
+        )
         var stream = cat([
-            S.once({ type: 'start', op: ev }),
+            S.once(['start', { op: ev }]),
             reqStream,
-            S.once({ type: 'resolve', op: ev })
+            S.once(['resolve', { op: ev }])
         ])
         return stream
     }

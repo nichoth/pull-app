@@ -14,15 +14,15 @@ test('root controller', function (t) {
         S.collect(function (err, res) {
             t.error(err)
             t.deepEqual(res, [
-                { type: 'start', op: 'fetch' },
-                { type: 'start', op: 'update' },
-                { type: 'start', op: 'delete' },
-                { data: 'fetch' },
-                { type: 'resolve', op: 'fetch' },
-                { data: 'udpate' },
-                { type: 'resolve', op: 'update' },
-                { data: 'delete' },
-                { type: 'resolve', op: 'delete' }
+                [ 'start', { op: 'fetch' } ],
+                [ 'start', { op: 'update' } ],
+                [ 'start', { op: 'delete' } ],
+                [ 'fetch', { data: 'fetch' } ],
+                [ 'resolve', { op: 'fetch' } ],
+                [ 'update', { data: 'udpate' } ],
+                [ 'resolve', { op: 'update' } ],
+                [ 'delete', { data: 'delete' } ],
+                [ 'resolve', { op: 'delete' } ]
             ], 'should map view actions to api calls')
         })
     )
