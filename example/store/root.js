@@ -1,5 +1,4 @@
 var xtend = require('xtend')
-// var Store = require('pull-store')
 var Store = require('../../store')
 
 var reducers = {

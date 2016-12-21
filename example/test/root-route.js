@@ -25,6 +25,9 @@ test('root route', function (t) {
                         { count: 0, data: null, hasFetched: false,
                             resolving: 0, ws: null
                         },
+                        { count: 0, data: null, hasFetched: false,
+                            resolving: 1, ws: null
+                        },
                         { count: 3, data: 'delete', hasFetched: true,
                             resolving: 0, ws: null
                         }
